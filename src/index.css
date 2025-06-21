@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@theme {
+  --font-head1: "Oswald", sans-serif;
+  --font-head2: "Odibee Sans", sans-serif;
+  --font-body: "Roboto", sans-serif;
+  --font-text: "Nunito", sans-serif;
+}
