@@ -52,22 +52,42 @@ export function Form({ isSignUp = false, userData, setUserData }) {
   }, [userData.userPassword, userData.confirmPassword]);
 
   const handleClick = async () => {
-    setLoading(true);
     if (isSignUp) {
-      //removing the 'confirmPassword' feild from the userData object before sending it to the backend.
+      setLoading(true);
       try {
+        //removing the 'confirmPassword' feild from the userData object before sending it to the backend.
         const { confirmPassword, ...rest } = userData;
         const response = await axios.post(
           `${serverAddress}/user/register`,
           rest
         );
         console.log("Form sent!");
-        //setting the validation erros if any
-        if (response.data.status == 400) {
-          setValidationErrors(response.data.errors);
-        } else {
+        if (response?.data?.status == 200) {
           resetForm();
           navigate("/login");
+        } else {
+          //setting the validation erros if any
+          setValidationErrors(response.data.errors);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `${serverAddress}/user/login`,
+          userData
+        );
+        console.log("Form sent!");
+        if (response?.data?.status == 200) {
+          resetForm();
+          navigate("/");
+        } else {
+          console.log(response.data.msg);
+          setValidationErrors(response.data.msg);
         }
       } catch (error) {
         console.log(error);

@@ -23,7 +23,7 @@ export function Input({
     //removing the error msg when user starts typing
     setValidationErrors((prev) => prev.filter((err) => err.path != id));
 
-    if (id == "userPassword" && value.length < 6) {
+    if (id == "userPassword" && value.length < 6 && isSignUp) {
       //when password is short
       setValidationErrors((prev) => {
         const withoutPassword = prev.filter(
