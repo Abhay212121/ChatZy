@@ -5,7 +5,13 @@ export function Input({
   placeHolder,
   className,
   isSignUp,
+  userData,
+  setUserData,
 }) {
+  const handleChange = (e) => {
+    setUserData((prev) => ({ ...prev, [id]: e.target.value }));
+  };
+
   return (
     <div
       className={`group flex flex-col ${
@@ -27,6 +33,8 @@ export function Input({
         name={id}
         placeholder={placeHolder}
         autoComplete="off"
+        value={userData[id]}
+        onChange={(e) => handleChange(e)}
         className="font-body border px-4 py-[0.7%] rounded-sm shadow cursor-pointer hover:shadow-md hover:border-[#4070F4] focus:border-[#8b40f4] focus:outline-0 focus:cursor-default transition duration-200 w-full "
       />
     </div>
