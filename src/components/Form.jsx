@@ -1,4 +1,4 @@
-import { Button, Switch } from "antd";
+import { Button, Switch, message } from "antd";
 import { Input } from "./Input";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -83,10 +83,12 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         );
         console.log("Form sent!");
         if (response?.data?.status == 200) {
+          localStorage.setItem("token", response.data.token);
           resetForm();
+          message.success(`Welcome ${response.data.userName}!`);
           navigate("/");
         } else {
-          console.log(response.data.msg);
+          message.error("Login failed!");
           setValidationErrors(response.data.msg);
         }
       } catch (error) {
