@@ -1,7 +1,16 @@
 import { Button, Switch } from "antd";
 import { Input } from "./Input";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { serverAddress } from "../constants/serverAddress";
+import { useNavigate } from "react-router-dom";
 
 export function Form({ isSignUp = false, userData, setUserData }) {
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [passwordMatch, setPasswordMatch] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const resetForm = () => {
     if (isSignUp) {
       setUserData({
@@ -19,9 +28,53 @@ export function Form({ isSignUp = false, userData, setUserData }) {
     }
   };
 
-  const handleClick = () => {
-    console.log(userData);
-    resetForm();
+  useEffect(() => {
+    if (userData.userPassword === userData.confirmPassword) {
+      setPasswordMatch(true);
+      setValidationErrors((prev) =>
+        prev.filter((err) => err.path !== "confirmPassword")
+      );
+    } else if (
+      userData.userPassword != userData.confirmPassword &&
+      userData.confirmPassword != ""
+    ) {
+      setPasswordMatch(false);
+      setValidationErrors((prev) => {
+        const withoutConfirm = prev.filter(
+          (err) => err.path !== "confirmPassword"
+        );
+        return [
+          ...withoutConfirm,
+          { path: "confirmPassword", msg: "Password not matching!" },
+        ];
+      });
+    }
+  }, [userData.userPassword, userData.confirmPassword]);
+
+  const handleClick = async () => {
+    setLoading(true);
+    if (isSignUp) {
+      //removing the 'confirmPassword' feild from the userData object before sending it to the backend.
+      try {
+        const { confirmPassword, ...rest } = userData;
+        const response = await axios.post(
+          `${serverAddress}/user/register`,
+          rest
+        );
+        console.log("Form sent!");
+        //setting the validation erros if any
+        if (response.data.status == 400) {
+          setValidationErrors(response.data.errors);
+        } else {
+          resetForm();
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -37,6 +90,8 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         isSignUp={isSignUp}
         userData={userData}
         setUserData={setUserData}
+        validationErrors={validationErrors}
+        setValidationErrors={setValidationErrors}
       />
       <Input
         id={"userMail"}
@@ -47,6 +102,8 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         isSignUp={isSignUp}
         userData={userData}
         setUserData={setUserData}
+        validationErrors={validationErrors}
+        setValidationErrors={setValidationErrors}
       />
       <Input
         id={"userPassword"}
@@ -56,6 +113,8 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         isSignUp={isSignUp}
         userData={userData}
         setUserData={setUserData}
+        validationErrors={validationErrors}
+        setValidationErrors={setValidationErrors}
       />
       <Input
         id={"confirmPassword"}
@@ -66,6 +125,8 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         isSignUp={isSignUp}
         userData={userData}
         setUserData={setUserData}
+        validationErrors={validationErrors}
+        setValidationErrors={setValidationErrors}
       />
       {!isSignUp && (
         <div className="my-1">
@@ -93,6 +154,13 @@ export function Form({ isSignUp = false, userData, setUserData }) {
           color: "white",
         }}
         onClick={handleClick}
+        loading={loading}
+        disabled={
+          userData.userName == "" ||
+          userData.userPassword == "" ||
+          (isSignUp && (userData.userMail == "" || !passwordMatch)) ||
+          loading
+        }
         className="mt-1 !h-10 !font-head1 !text-lg hover:!border-0 hover:!bg-[#4070f4e6]"
       >
         {isSignUp ? "Register" : "Login"}
