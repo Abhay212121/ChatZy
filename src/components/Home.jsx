@@ -19,7 +19,6 @@ export function Home() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response);
         if (response?.data?.status == 200) {
           console.log(`welcome ${response.data.userName}`);
         } else {

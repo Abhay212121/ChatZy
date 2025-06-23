@@ -1,15 +1,17 @@
-import { Button, Switch, message } from "antd";
+import { Button, Switch } from "antd";
 import { Input } from "./Input";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { serverAddress } from "../constants/serverAddress";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 export function Form({ isSignUp = false, userData, setUserData }) {
   const [validationErrors, setValidationErrors] = useState([]);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { userId, setUserId } = useContext(UserContext);
 
   const resetForm = () => {
     if (isSignUp) {
@@ -86,6 +88,7 @@ export function Form({ isSignUp = false, userData, setUserData }) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("nickname", response.data.userName);
           localStorage.setItem("userId", response.data.userId);
+          setUserId(response.data.userId);
           resetForm();
           navigate("/");
         } else {

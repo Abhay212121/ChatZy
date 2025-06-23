@@ -1,18 +1,19 @@
 import { Button } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { serverAddress } from "../constants/serverAddress";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 export function Welcome() {
   const [nickName, setNickName] = useState(localStorage.getItem("nickname"));
   const [groupId, setGroupId] = useState(1);
   const [loading, setLoading] = useState(false);
+  const { userId } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {
     setLoading(true);
-    const userId = localStorage.getItem("userId");
     try {
       const response = await axios.post(`${serverAddress}/user/setnickname`, {
         nickName,
@@ -34,7 +35,7 @@ export function Welcome() {
     <div className="flex items-center justify-center h-screen bg-[#D1D5DC]">
       <div className="w-100 flex flex-col gap-2 px-8 py-4 bg-white rounded-md ">
         <p className="group relative text-2xl cursor-default w-fit mx-auto font-head1 mb-2 border-b-3   text-center border-[#6127A4]">
-          Meet like minded people
+          Connect with like minded people
         </p>
         <div className="flex flex-col gap-2">
           <label
@@ -79,6 +80,7 @@ export function Welcome() {
         <Button
           onClick={handleJoinClick}
           disabled={loading}
+          loading={loading}
           style={{
             backgroundColor: "#4070F4",
             borderColor: "#4070F4",
