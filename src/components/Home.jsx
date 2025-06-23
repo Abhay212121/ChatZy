@@ -2,6 +2,10 @@ import axios from "axios";
 import { serverAddress } from "../constants/serverAddress";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { TopSection } from "./TopSection";
+import { Sidebar } from "./Sidebar";
+import { BottomSection } from "./BottomSection";
+import { Chatwindow } from "./Chatwindow";
 
 export function Home() {
   const navigate = useNavigate();
@@ -30,8 +34,15 @@ export function Home() {
   }, [navigate]);
 
   return (
-    <>
-      <p className="text-4xl">Welcome</p>
-    </>
+    <div className="bg-gray-300 h-screen flex items-center justify-center">
+      <div className="h-fit w-[70%] bg-white rounded-3xl">
+        <TopSection />
+        <div className="h-125 flex">
+          <Sidebar />
+          <Chatwindow />
+        </div>
+        <BottomSection />
+      </div>
+    </div>
   );
 }

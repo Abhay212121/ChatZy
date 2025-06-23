@@ -84,11 +84,11 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         console.log("Form sent!");
         if (response?.data?.status == 200) {
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("nickname", response.data.userName);
+          localStorage.setItem("userId", response.data.userId);
           resetForm();
-          message.success(`Welcome ${response.data.userName}!`);
           navigate("/");
         } else {
-          message.error("Login failed!");
           setValidationErrors(response.data.msg);
         }
       } catch (error) {

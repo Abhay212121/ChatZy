@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./components/Home";
 import { Signup } from "./components/Signup";
 import { Login } from "./components/Login";
+import { Welcome } from "./components/Welcome";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Home />}
+          element={<Welcome />}
         />
         <Route
           path="/signup"
@@ -18,6 +19,10 @@ function App() {
         <Route
           path="/login"
           element={<Login />}
+        />
+        <Route
+          path="/:groupId"
+          element={<Home />}
         />
       </Routes>
     </BrowserRouter>
