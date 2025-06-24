@@ -12,6 +12,7 @@ export function Form({ isSignUp = false, userData, setUserData }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { userId, setUserId } = useContext(UserContext);
+  const { nickname, setNickname } = useContext(UserContext);
 
   const resetForm = () => {
     if (isSignUp) {
@@ -86,8 +87,9 @@ export function Form({ isSignUp = false, userData, setUserData }) {
         console.log("Form sent!");
         if (response?.data?.status == 200) {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("nickname", response.data.userName);
+          // localStorage.setItem("nickname", response.data.userName);
           localStorage.setItem("userId", response.data.userId);
+          setNickname(response.data.userName);
           setUserId(response.data.userId);
           resetForm();
           navigate("/");

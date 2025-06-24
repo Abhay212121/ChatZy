@@ -1,12 +1,12 @@
 import { Button } from "antd";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { serverAddress } from "../constants/serverAddress";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 export function Welcome() {
-  const [nickName, setNickName] = useState(localStorage.getItem("nickname"));
+  const { nickname, setNickname } = useContext(UserContext);
   const [groupId, setGroupId] = useState(1);
   const [loading, setLoading] = useState(false);
   const { userId } = useContext(UserContext);
@@ -16,7 +16,7 @@ export function Welcome() {
     setLoading(true);
     try {
       const response = await axios.post(`${serverAddress}/user/setnickname`, {
-        nickName,
+        nickname,
         userId,
       });
       if (response.data.status == 200) {
@@ -30,6 +30,11 @@ export function Welcome() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) navigate("/login");
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen bg-[#D1D5DC]">
@@ -47,10 +52,11 @@ export function Welcome() {
           </label>
           <input
             type="text"
+            placeholder="Enter your nickname"
             className="font-body border px-4 py-[0.7%] rounded-sm shadow cursor-pointer hover:shadow-md focus:outline-0 focus:cursor-default transition duration-200 w-full  "
-            value={nickName}
+            value={nickname}
             onChange={(e) => {
-              setNickName(e.target.value);
+              setNickname(e.target.value);
             }}
           />
         </div>

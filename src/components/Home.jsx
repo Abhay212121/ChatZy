@@ -1,14 +1,17 @@
 import axios from "axios";
 import { serverAddress } from "../constants/serverAddress";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { TopSection } from "./TopSection";
 import { Sidebar } from "./Sidebar";
 import { BottomSection } from "./BottomSection";
 import { Chatwindow } from "./Chatwindow";
+import { socket } from "../socket";
 
 export function Home() {
   const navigate = useNavigate();
+  const { groupId } = useParams();
+  const prevGroupIdRef = useRef();
 
   useEffect(() => {
     const fetchWelcome = async () => {
@@ -31,6 +34,32 @@ export function Home() {
     };
     fetchWelcome();
   }, [navigate]);
+
+  useEffect(() => {
+    const handleTabClose = () => {
+      if (socket.connected && groupId) {
+        socket.emit("user-disconnecting", { groupId });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleTabClose);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleTabClose);
+    };
+  }, [groupId]);
+
+  useEffect(() => {
+    if (
+      socket.connected &&
+      prevGroupIdRef.current &&
+      prevGroupIdRef.current !== groupId
+    ) {
+      socket.emit("user-disconnecting", { groupId: prevGroupIdRef.current });
+    }
+
+    prevGroupIdRef.current = groupId;
+  }, [groupId]);
 
   return (
     <div className="bg-gray-300 h-screen flex items-center justify-center">
