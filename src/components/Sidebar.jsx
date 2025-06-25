@@ -54,7 +54,7 @@ export function Sidebar() {
   return (
     <div className="w-full md:w-90 bg-fuchsia-500 h-fit md:h-full">
       <div className="flex items-center flex-col justify-center px-4 md:px-0 py-8 gap-4 md:gap-10">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <p className="font-cursive text-white text-2xl xl:text-3xl border-b-2 text-wrap px-4 mx-auto">
             {groupName}
           </p>

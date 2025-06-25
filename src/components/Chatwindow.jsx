@@ -57,14 +57,14 @@ export function Chatwindow() {
   }, [messages]);
 
   return (
-    <div className="bg-white w-full overflow-y-scroll min-h-120 h-132 md:h-full md:min-h-0">
+    <div className="bg-white w-full overflow-y-scroll min-h-120 h-133 md:h-full md:min-h-0">
       {messages.map((msg) => {
         return (
           <div
             key={msg.message_id}
-            className="bg-fuchsia-200 w-[90%] px-4 py-1 my-2 mx-auto rounded-lg flex justify-between"
+            className="bg-fuchsia-200 w-[90%] px-4 py-1 my-4 md:my-2 mx-auto rounded-lg flex justify-between"
           >
-            <div className="flex flex-col w-[85%]">
+            <div className="flex flex-col w-[70%] md:w-[80%]">
               <p className="text-lg font-head1 italic text-[#6D11B0]">
                 {msg.user_nickname}
               </p>
@@ -72,7 +72,7 @@ export function Chatwindow() {
                 {msg.message_text}
               </p>
             </div>
-            <p className="text-sm md:text-md font-cursive justify-self-end place-self-end text-end w-[10%]">
+            <p className="text-sm md:text-md font-cursive justify-self-end place-self-end text-end w-[20%] md:w-[10%]">
               {msg.message_time.split("at ")[1]}
             </p>
           </div>

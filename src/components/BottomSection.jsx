@@ -32,7 +32,7 @@ export function BottomSection() {
   };
 
   return (
-    <div className="bg-purple-800 h-20 flex items-center px-12 gap-20 rounded-b-xl">
+    <div className="bg-purple-800 h-20 flex items-center px-6 md:px-12 gap-10 md:gap-20 md:rounded-b-xl">
       <input
         type="text"
         placeholder="Enter your message"

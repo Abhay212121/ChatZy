@@ -10,7 +10,7 @@ export function TopSection() {
   const { groupId } = useParams();
 
   return (
-    <div className="bg-purple-800 h-15 items-center flex px-10 py-10 rounded-t-xl justify-between">
+    <div className="bg-purple-800 h-15 items-center flex px-10 py-10 md:rounded-t-xl justify-between">
       <p className="text-4xl font-chatContent  text-white">ChatZy</p>
       <Button
         onClick={() => {
