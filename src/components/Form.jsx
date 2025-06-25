@@ -60,10 +60,13 @@ export function Form({ isSignUp = false, userData, setUserData }) {
       try {
         //removing the 'confirmPassword' feild from the userData object before sending it to the backend.
         const { confirmPassword, ...rest } = userData;
+        console.log("Sending to:", `${serverAddress}/user/register`);
         const response = await axios.post(
           `${serverAddress}/user/register`,
           rest
         );
+        console.log("Sending to:", `${serverAddress}/user/register`);
+        console.log("Registering with:", rest);
         console.log("Form sent!");
         if (response?.data?.status == 200) {
           resetForm();
@@ -73,7 +76,10 @@ export function Form({ isSignUp = false, userData, setUserData }) {
           setValidationErrors(response.data.errors);
         }
       } catch (error) {
-        console.log(error);
+        console.error("Signup Error:", error);
+        if (error.response) {
+          console.log("Error Response:", error.response.data);
+        }
       } finally {
         setLoading(false);
       }
