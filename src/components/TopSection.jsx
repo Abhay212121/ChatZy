@@ -11,7 +11,7 @@ export function TopSection() {
 
   return (
     <div className="bg-purple-800 h-15 items-center flex px-10 py-10 rounded-t-xl justify-between">
-      <p className="text-4xl font-head1  text-white">ChatZy</p>
+      <p className="text-4xl font-chatContent  text-white">ChatZy</p>
       <Button
         onClick={() => {
           if (socket.connected && groupId) {
@@ -24,7 +24,7 @@ export function TopSection() {
           backgroundColor: "#E12AFB",
           color: "white",
         }}
-        className="!font-head1  !h-10 !w-20 !rounded-sm cursor-pointer !border-0 !p-2 !scale-115"
+        className="!font-head1  !h-10 !w-20 !rounded-sm cursor-pointer !border-0 !p-2 !scale-115 hover:!bg-[#e444f9]"
       >
         Leave room
       </Button>

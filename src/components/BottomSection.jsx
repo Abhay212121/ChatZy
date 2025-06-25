@@ -20,6 +20,7 @@ export function BottomSection() {
           if (response.status == 200) {
             console.log("message sent!");
             setMessageText("");
+            setLoading(false);
           } else {
             console.log("Error sending message!");
           }
@@ -27,8 +28,6 @@ export function BottomSection() {
       );
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -48,13 +47,13 @@ export function BottomSection() {
       />
       <Button
         onClick={handleSendMessage}
-        disabled={!messageText || loading}
+        disabled={loading || !messageText}
         loading={loading}
         style={{
           backgroundColor: "#E12AFB",
           color: "white",
         }}
-        className="!font-head1  !h-10 !w-20 !rounded-sm cursor-pointer !border-0 !p-2 !scale-115"
+        className="!font-head1 !h-10 !w-20 !rounded-sm cursor-pointer !border-0 !p-2 !scale-115"
       >
         Send
       </Button>
