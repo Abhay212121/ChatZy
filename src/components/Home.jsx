@@ -62,10 +62,10 @@ export function Home() {
   }, [groupId]);
 
   return (
-    <div className="bg-gray-300 h-screen flex items-center justify-center">
-      <div className="h-fit w-[70%] bg-white rounded-3xl">
+    <div className="bg-gray-300 h-full sm:h-screen sm:flex items-center justify-center">
+      <div className="h-full md:h-fit md:w-[70%] bg-white rounded-3xl">
         <TopSection />
-        <div className="h-125 flex">
+        <div className="h-full md:h-125 flex flex-col md:flex-row ">
           <Sidebar />
           <Chatwindow />
         </div>

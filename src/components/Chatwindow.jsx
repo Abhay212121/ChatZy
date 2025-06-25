@@ -57,7 +57,7 @@ export function Chatwindow() {
   }, [messages]);
 
   return (
-    <div className="bg-white w-full overflow-y-scroll h-full">
+    <div className="bg-white w-full overflow-y-scroll min-h-120 h-132 md:h-full md:min-h-0">
       {messages.map((msg) => {
         return (
           <div
@@ -68,11 +68,11 @@ export function Chatwindow() {
               <p className="text-lg font-head1 italic text-[#6D11B0]">
                 {msg.user_nickname}
               </p>
-              <p className="text-lg font-chatContent font-semibold text-wrap">
+              <p className="text-lg font-chatContent font-semibold text-wrap break-words">
                 {msg.message_text}
               </p>
             </div>
-            <p className="text-md font-cursive justify-self-end place-self-end text-end w-[10%]">
+            <p className="text-sm md:text-md font-cursive justify-self-end place-self-end text-end w-[10%]">
               {msg.message_time.split("at ")[1]}
             </p>
           </div>
